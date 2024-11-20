@@ -1,4 +1,4 @@
-name: delivery_repository
+name: pizza_repository
 description: The Repo that handles users
 publish_to: 'none'
 version: 0.01.0
@@ -7,6 +7,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  firebase_auth: ^5.3.3
+  cloud_firestore: ^5.5.0 
   # equatable: ^2.0.5
   # firebase_auth: ^4.16.0
   # cloud_firestore: ^4.9.2

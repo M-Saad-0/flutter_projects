@@ -1,9 +1,11 @@
 import 'package:delivery_app/components/macro_expanded.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:pizza_repository/pizza_repository.dart';
 
 class DetailsScreen extends StatelessWidget {
-  const DetailsScreen({super.key});
+  final PizzaModels pizza;
+  const DetailsScreen({super.key, required this.pizza});
 
   @override
   Widget build(BuildContext context) {
@@ -19,14 +21,14 @@ class DetailsScreen extends StatelessWidget {
             Container(
               width: MediaQuery.sizeOf(context).width,
               height: MediaQuery.sizeOf(context).width - 40,
-              decoration: const BoxDecoration(
-                  boxShadow: [
+              decoration:  BoxDecoration(
+                  boxShadow:const  [
                     BoxShadow(
                         offset: Offset(3, 3), color: Colors.grey, blurRadius: 5)
                   ],
                   color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(15)),
-                  image: DecorationImage(image: AssetImage("1.png"))),
+                  borderRadius:const BorderRadius.all(Radius.circular(15)),
+                  image: DecorationImage(image: NetworkImage(pizza.picture))),
             ),
             const SizedBox(
               height: 10,
@@ -45,11 +47,11 @@ class DetailsScreen extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      const Expanded(
+                       Expanded(
                           flex: 2,
                           child: Text(
-                            "Extra Cheeze and Spice",
-                            style: TextStyle(
+                            pizza.name,
+                            style: const TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           )),
                       Expanded(
@@ -59,15 +61,15 @@ class DetailsScreen extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                Text("\$12",
+                                Text(("\$${(pizza.price-(pizza.discount*pizza.price)/100)}"),
                                     style: TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold,
                                         color: Theme.of(context)
                                             .colorScheme
                                             .primary)),
-                                const Text("\$15",
-                                    style: TextStyle(
+                                 Text("\$${pizza.price}.00",
+                                    style: const TextStyle(
                                       decoration: TextDecoration.lineThrough,
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
@@ -81,28 +83,28 @@ class DetailsScreen extends StatelessWidget {
                   const SizedBox(
                     height: 15,
                   ),
-                  const Row(
+                   Row(
                     children: [
-                      const SizedBox(width: 5),
-                      const MacroExpanded(
+                       const SizedBox(width: 5),
+                       MacroExpanded(
                           icon: FontAwesomeIcons.fire,
                           title: "Calories",
-                          value: 436),
-                      const SizedBox(width: 5),
-                      const MacroExpanded(
+                          value: pizza.macros.calories),
+                       const SizedBox(width: 5),
+                       MacroExpanded(
                           icon: FontAwesomeIcons.dumbbell,
                           title: "Protien",
-                          value: 436),
-                      const SizedBox(width: 5),
-                      const MacroExpanded(
+                          value: pizza.macros.protien),
+                       const SizedBox(width: 5),
+                       MacroExpanded(
                           icon: FontAwesomeIcons.droplet,
                           title: "Fat",
-                          value: 436),
-                      const SizedBox(width: 5),
-                      const MacroExpanded(
+                          value: pizza.macros.fat),
+                       const SizedBox(width: 5),
+                       MacroExpanded(
                           icon: FontAwesomeIcons.breadSlice,
                           title: "Carbs",
-                          value: 436)
+                          value: pizza.macros.carbs)
                     ],
                   ),
                   const SizedBox(
