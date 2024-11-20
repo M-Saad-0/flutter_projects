@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "228037731712",
+    "project_id": "tailordb-93dd1",
+    "storage_bucket": "tailordb-93dd1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:228037731712:android:d226794c70ff70f8844d65",
+        "android_client_info": {
+          "package_name": "com.tailortape.app.tailortape"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "228037731712-t1p9vb61jr2r4ec09tgdqih59123bu1e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tailortape.app.tailortape",
+            "certificate_hash": "c585d5d7be7c6af18388d663416d92659ebdcbb3"
+          }
+        },
+        {
+          "client_id": "228037731712-cc9ql8ou5ep996uko7dtua78m2j5vaet.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEYbilNUPSGY6sDo5P3cTsKwDeUyufC6U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "228037731712-cc9ql8ou5ep996uko7dtua78m2j5vaet.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "228037731712-pmiiq1kv08tld43qp1dbmrkkgb5d8s3d.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.tailortape.app.tailortape"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,39 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "tailordb-93dd1",
+          "appId": "1:228037731712:android:7de36c483be1d7c8844d65",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "tailordb-93dd1",
+          "configurations": {
+            "android": "1:228037731712:android:7de36c483be1d7c8844d65",
+            "ios": "1:228037731712:ios:3a274fd42c24b741844d65",
+            "macos": "1:228037731712:ios:3a274fd42c24b741844d65",
+            "web": "1:228037731712:web:e12cc683a9086a60844d65",
+            "windows": "1:228037731712:web:35d3286879f248df844d65"
+          }
+        }
+      }
+    }
+  },
+  "hosting": {
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
