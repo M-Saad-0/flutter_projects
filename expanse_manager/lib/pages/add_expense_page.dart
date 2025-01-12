@@ -41,8 +41,9 @@ class _AddExpensePageState extends State<AddExpensePage> {
                 ),
               ),
               const SizedBox(height: 16),
-              const Text("Category ID"),
+              const Text("Category"),
               DropdownMenu(
+                width: MediaQuery.sizeOf(context).width-32,
                   hintText: "Add Category",
                   controller: _categoryIdController,
                   dropdownMenuEntries: Provider.of<ExpenseProvider>(context)
@@ -50,7 +51,10 @@ class _AddExpensePageState extends State<AddExpensePage> {
                       .map((e) => DropdownMenuEntry(
                           value: e.categoryName, label: e.categoryName))
                       .toList()),
+                      const SizedBox(height: 16),
+              const Text("Tag"),
               DropdownMenu(
+                width: MediaQuery.sizeOf(context).width-32,
                   hintText: "Add Tag",
                   controller: _tagController,
                   dropdownMenuEntries: Provider.of<ExpenseProvider>(context)
@@ -93,15 +97,7 @@ class _AddExpensePageState extends State<AddExpensePage> {
                   border: const OutlineInputBorder(),
                 ),
               ),
-              const SizedBox(height: 16),
-              const Text("Tags"),
-              TextField(
-                controller: _tagController,
-                decoration: const InputDecoration(
-                  hintText: "Add tags (comma-separated)",
-                  border: OutlineInputBorder(),
-                ),
-              ),
+              
               const SizedBox(height: 24),
               Center(
                 child: ElevatedButton(

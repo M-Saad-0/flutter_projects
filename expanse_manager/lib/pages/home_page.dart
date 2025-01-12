@@ -67,10 +67,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             const Divider(),
             TextButton(
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const AddTags()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const AddTags()));
                 },
                 child: const Row(
                   children: [
@@ -114,17 +112,32 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               itemCount: provider.expenses.length,
               itemBuilder: (context, index) {
                 final expense = provider.expenses[index];
-                return ListTile(
-                  leading: const CircleAvatar(
-                    child: Icon(Icons.monetization_on),
-                  ),
-                  title: Text(
-                    "${expense.tag} - \$${expense.amount}",
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ),
-                  subtitle: Text(
-                    "${DateFormat('yyyy-MM-dd').format(expense.date)} - ${expense.categoryId}",
-                    style: Theme.of(context).textTheme.bodyMedium,
+                return Dismissible(
+                  key: Key(expense.id.toString()),
+                  direction: DismissDirection.endToStart,
+                  onDismissed: (direction) {
+                    showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                              title: const Text("Warning"),
+                              content: Text("Are you sure you want to delete ${expense.tag} expanse?"),
+                              actions: [TextButton(onPressed: (){
+                                provider.removeExpanse(expense);
+                                Navigator.of(context).pop();}, child: const Text("Delete")),TextButton(onPressed: (){Navigator.of(context).pop();}, child: const Text("Cancel"))],
+                            ));
+                  },
+                  child: ListTile(
+                    leading: const CircleAvatar(
+                      child: Icon(Icons.monetization_on),
+                    ),
+                    title: Text(
+                      "${expense.tag} - \$${expense.amount}",
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                    subtitle: Text(
+                      "${DateFormat('yyyy-MM-dd').format(expense.date)} - ${expense.categoryId}",
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
                   ),
                 );
               },
@@ -145,30 +158,31 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                     : Column(
                         children: [
                           Text(
+                            textAlign: TextAlign.left,
                             provider.categories[index].categoryName,
                             style: TextStyle(
-                                color: Theme.of(context).primaryColor),
+                                color: Theme.of(context).primaryColor,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
                           ),
-                          Expanded(
-                            child: ListView.builder(
-                                itemCount: expenseByCategory.length,
-                                itemBuilder: (context, index) => ListTile(
-                                      leading: const CircleAvatar(
-                                        child: Icon(Icons.monetization_on),
-                                      ),
-                                      title: Text(
-                                        "${expenseByCategory[index].tag} - \$${expenseByCategory[index].amount}",
-                                        style:
-                                            Theme.of(context).textTheme.bodyLarge,
-                                      ),
-                                      subtitle: Text(
-                                        "Category: ${expenseByCategory[index].categoryId}",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium,
-                                      ),
-                                    )),
-                          ),
+                          ...expenseByCategory
+                              .map((e) => ListTile(
+                                    leading: const CircleAvatar(
+                                      child: Icon(Icons.monetization_on),
+                                    ),
+                                    title: Text(
+                                      "${expenseByCategory[index].tag} - ${expenseByCategory[index].amount} RS",
+                                      style:
+                                          Theme.of(context).textTheme.bodyLarge,
+                                    ),
+                                    subtitle: Text(
+                                      "Category: ${expenseByCategory[index].categoryId}",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium,
+                                    ),
+                                  ))
+                              .toList()
                         ],
                       );
               },
@@ -176,10 +190,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => const AddExpensePage()));
-      },child: const Icon(Icons.add)),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const AddExpensePage()));
+          },
+          child: const Icon(Icons.add)),
     );
   }
 }

@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:provider/provider.dart';
 
-void main() {
-  initLocalStorage();
+void main()async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initLocalStorage();
+
   runApp(
     MultiProvider(
       providers: [

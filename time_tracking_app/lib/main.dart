@@ -4,8 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:time_tracking_app/pages/home_page.dart';
 import 'package:time_tracking_app/providers/time_entry_provider.dart';
 
-void main() {
-  initLocalStorage();
+void main() async{
+ await initLocalStorage();
   runApp(
     MultiProvider(
       providers: [
