@@ -1,0 +1,36 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "prime-perfume-store",
+          "appId": "1:686100575561:android:b6b02a3b8a98200678d698",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "prime-perfume-store",
+          "configurations": {
+            "android": "1:686100575561:android:b6b02a3b8a98200678d698",
+            "web": "1:686100575561:web:6c44ac2c53a3aa6e78d698"
+          }
+        }
+      }
+    }
+  },
+  "hosting": {
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

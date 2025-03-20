@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "686100575561",
+    "project_id": "prime-perfume-store",
+    "storage_bucket": "prime-perfume-store.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:686100575561:android:b6b02a3b8a98200678d698",
+        "android_client_info": {
+          "package_name": "com.example.perfume_store"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqcaM_F5zgnLkmkuCPCRchoC1W8nULoxY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:686100575561:android:ae17b7a062377fcc78d698",
+        "android_client_info": {
+          "package_name": "com.example.perfume_store_admin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqcaM_F5zgnLkmkuCPCRchoC1W8nULoxY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:my_video_player/models/video.dart';
 import 'package:my_video_player/services/sql_helper.dart';
+import 'package:my_video_player/widgets/toast_message.dart';
 
 class VideoFinder {
   static final VideoFinder _instance = VideoFinder._internal();
@@ -15,46 +16,39 @@ class VideoFinder {
   Future<List<Video>> findVideos() async {
     List<Video> vids = await _sqlHelper.getVideos();
     if (vids.isNotEmpty) {
-      return [];
+      return vids;
     }
     Directory dir = Directory("/storage/emulated/0/");
-    List<String> restrictedPaths = [
-    "/storage/emulated/0/Android",
-    "/storage/emulated/0/LOST.DIR",
-    "/storage/emulated/0/.thumbnails",
-    "/storage/emulated/0/.Trash",
-  ];
-  var allFolder =  dir.listSync();
-  allFolder.removeWhere((e)=>e.path.contains("/storage/emulated/0/Android"));
+    var allFolder = dir.listSync();
+    print("*********Folders*********");
+    print(allFolder);
+    allFolder.removeWhere((e)=>e.path=="/storage/emulated/0/Android");
+    allFolder.removeWhere((e)=>e.path.startsWith("/storage/emulated/0/."));
+    allFolder.add(Directory("/storage/emulated/0/Android/media"));
+    List<FileSystemEntity> fsEntity = [];
+    for (FileSystemEntity d in allFolder) {
+      Directory dir = Directory(d.path);
 
-    var fsEntity = [];
-    for(var d in allFolder){
-    Directory dir = Directory(d.path);
-
-     dir.listSync(recursive: true).where((e) {
+      fsEntity.addAll(dir.listSync(recursive: true).where((e) {
+        toastMessage("Looking in ${d.path}");
+        // debugPrint(e.path);
+        return (e.path.endsWith('.mp4') ||
+            e.path.endsWith('.mkv') ||
+            e.path.endsWith('.avi'));
+      }).toList());
       
-      debugPrint(e.path);
-      return (e.path.endsWith('.mp4') ||
-        e.path.endsWith('.mkv') ||
-        e.path.endsWith('.avi'));
-    });
-    if (fsEntity.isEmpty) {
-      return [];
-    }}
-    return fsEntity
-        .map((e) {
-          String timeStamp = DateTime.timestamp().toIso8601String();
-          Video videoObject = Video(
-            id: timeStamp,
-            path: e.path,
-            name: e.path.split('/').last);
-          _sqlHelper.insertVideo(videoObject);
-          return videoObject;
-        })
-        .toList();
+    }
+    print("fsEntity$fsEntity");
+    return fsEntity.map<Video>((e) {
+      String timeStamp = DateTime.timestamp().toIso8601String();
+      Video videoObject =
+          Video(id: timeStamp, path: e.path, name: e.path.split('/').last);
+      _sqlHelper.insertVideo(videoObject);
+      return videoObject;
+    }).toList();
   }
 
-  Future<List<Video>> searchAgain()async{
+  Future<List<Video>> searchAgain() async {
     _sqlHelper.deleteAll();
     Directory dir = Directory("/storage/emulated/0/");
     var fsEntity = dir.listSync().where((e) => (e.path.endsWith('.mp4') ||
@@ -63,16 +57,12 @@ class VideoFinder {
     if (fsEntity.isEmpty) {
       return [];
     }
-    return fsEntity
-        .map((e) {
-          String timeStamp = DateTime.timestamp().toIso8601String();
-          Video videoObject = Video(
-            id: timeStamp,
-            path: e.path,
-            name: e.path.split('/').last);
-          _sqlHelper.insertVideo(videoObject);
-          return videoObject;
-        })
-        .toList();
+    return fsEntity.map((e) {
+      String timeStamp = DateTime.timestamp().toIso8601String();
+      Video videoObject =
+          Video(id: timeStamp, path: e.path, name: e.path.split('/').last);
+      _sqlHelper.insertVideo(videoObject);
+      return videoObject;
+    }).toList();
   }
 }

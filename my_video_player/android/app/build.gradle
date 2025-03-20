@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.saadc.my_video_player"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 35
     ndkVersion = flutter.ndkVersion
 
     compileOptions {

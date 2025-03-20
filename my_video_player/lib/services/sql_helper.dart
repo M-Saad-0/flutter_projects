@@ -18,7 +18,7 @@ class SqlHelper {
 
   Future<Database> _initDatabase() async {
     final dbPath = await getDatabasesPath();
-    final path = join(dbPath, 'my_video.app');
+    final path = join(dbPath, 'my_video_app');
     return await openDatabase(path, version: 1, onCreate: _onCreate);
   }
 

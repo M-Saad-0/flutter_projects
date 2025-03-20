@@ -1,67 +1,116 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
+  // Define primary and accent colors
+  static const Color primaryColor = Color(0xFF102027); // Deep teal blue
+  static const Color secondaryColor = Color(0xFFFAAA1E); // Vibrant gold
+  static const Color accentColor = Color(0xFF26A69A); // Aqua green
+  static const Color cardColor = Color(0xFF1E2A30); // Darker blue-gray
+
   static final ThemeData themeData = ThemeData(
-    colorScheme: const ColorScheme(
-      brightness: Brightness.light,
-      primary: Color(0xFF16404D),
+    brightness: Brightness.dark,
+    colorScheme: ColorScheme.dark(
+      // seedColor: primaryColor,
+      primary: primaryColor,
       onPrimary: Colors.white,
-      secondary: Color(0xFFDDA853),
+      secondary: secondaryColor,
       onSecondary: Colors.black,
-      surface: Color(0xFF16404D),
-      onSurface: Color(0xFFDDA853),
-      
-      error: Colors.red,
+      surface: cardColor,
+      onSurface: Colors.white,
+      background: primaryColor,
+      onBackground: Colors.white,
+      error: Colors.redAccent,
       onError: Colors.white,
     ),
-    appBarTheme:const AppBarTheme(
-      backgroundColor: Color.fromARGB(255, 16, 48, 58),
-      foregroundColor: Color(0xFFDDA853),
-    ),
-    iconTheme: const IconThemeData(
-      color: Color(0xFFDDA853),
-    ),
-    textTheme: const TextTheme(
-      bodyLarge: TextStyle(color: Color(0xFFDDA853)),
-      bodyMedium: TextStyle(color: Color(0xFFDDA853)),
-      bodySmall: TextStyle(color: Color(0xFFDDA853)),
-    ),
-    elevatedButtonTheme:  ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0xFF16404D),
-        foregroundColor: const Color(0xFFDDA853),
+
+    // App Bar Styling
+    appBarTheme: const AppBarTheme(
+      backgroundColor: primaryColor,
+      foregroundColor: Colors.white,
+      elevation: 4,
+      centerTitle: true,
+      titleTextStyle: TextStyle(
+        color: secondaryColor,
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
       ),
     ),
+
+    // Icon Theme
+    iconTheme: const IconThemeData(
+      color: secondaryColor,
+      size: 26,
+    ),
+
+    // Text Theme
+    textTheme: const TextTheme(
+      bodyLarge: TextStyle(color: Colors.white, fontSize: 18),
+      bodyMedium: TextStyle(color: Colors.white70, fontSize: 16),
+      bodySmall: TextStyle(color: Colors.white60, fontSize: 14),
+      headlineSmall: TextStyle(color: secondaryColor, fontSize: 24, fontWeight: FontWeight.bold),
+      titleLarge: TextStyle(color: accentColor, fontSize: 20, fontWeight: FontWeight.w600),
+    ),
+
+    // Buttons
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: secondaryColor,
+        foregroundColor: Colors.black,
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        elevation: 4,
+      ),
+    ),
+
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
-        foregroundColor: const Color(0xFFDDA853),
+        foregroundColor: accentColor,
+        textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
       ),
     ),
+
+    // Text Fields
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: const Color(0xFF16404D),
-      hintStyle: TextStyle(color: const Color(0xFFDDA853).withOpacity(0.7)),
-      labelStyle: const TextStyle(color: Color(0xFFDDA853)),
-      enabledBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: Color(0xFFDDA853)),
+      fillColor: cardColor.withOpacity(0.8),
+      hintStyle: TextStyle(color: Colors.white54),
+      labelStyle: const TextStyle(color: Colors.white),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: const BorderSide(color: secondaryColor),
       ),
-      focusedBorder: const OutlineInputBorder(
-        borderSide: BorderSide(color: Color(0xFFDDA853)),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: const BorderSide(color: secondaryColor),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: const BorderSide(color: accentColor, width: 2),
       ),
     ),
+
+    // Dialogs
     dialogTheme: const DialogTheme(
-      shape: BeveledRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5))),
-      backgroundColor: Color(0xFF16404D),
-      titleTextStyle: TextStyle(color: Color(0xFFDDA853), fontSize: 20),
-      contentTextStyle: TextStyle(color: Color(0xFFDDA853), fontSize: 16),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(14))),
+      backgroundColor: cardColor,
+      titleTextStyle: TextStyle(color: secondaryColor, fontSize: 22, fontWeight: FontWeight.bold),
+      contentTextStyle: TextStyle(color: Colors.white70, fontSize: 16),
     ),
+
+    // Cards
     cardTheme: CardTheme(
-      color: const Color(0xFF16404D),
-      shadowColor: const Color(0xFFDDA853).withOpacity(0.5),
+      color: cardColor,
+      shadowColor: secondaryColor.withOpacity(0.3),
+      elevation: 6,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
     ),
-    floatingActionButtonTheme: const FloatingActionButtonThemeData(
-      backgroundColor: Color(0xFF16404D),
-      foregroundColor: Color(0xFFDDA853),
+
+    // Floating Action Button
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: secondaryColor,
+      foregroundColor: Colors.black,
+      elevation: 5,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
     ),
   );
 }

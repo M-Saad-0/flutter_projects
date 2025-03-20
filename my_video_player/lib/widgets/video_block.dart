@@ -12,20 +12,22 @@ class VideoBlock extends StatelessWidget {
         onTap: (){
           Navigator.push(context, MaterialPageRoute(builder: (context)=>PlayVideoPage(video: video)));
         },
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(
-              Icons.video_collection_outlined,
-              size: 90,
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            Text(video.name)
-          ],
+        child: Card(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.video_collection_outlined,
+                size: 70,
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              Text(video.name, textAlign: TextAlign.center,)
+            ],
+          ),
         ),
       ),
     );
