@@ -1,3 +1,5 @@
+import 'package:contributions_chart/contributions_chart.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -26,9 +28,13 @@ class _HomepageState extends State<Homepage>
     with SingleTickerProviderStateMixin {
   late AnimationController _textAnimationController;
   final ScrollController _scrollController = ScrollController();
+  late int gitHubYear;
+  late String urlPrefix;
 
   @override
   void initState() {
+    gitHubYear = DateTime.now().year;
+     urlPrefix = kIsWeb ? 'https://api.codetabs.com/v1/proxy?quest=' : '';
     _scrollController.addListener(() {});
     super.initState();
     // Initialize AnimationController
@@ -58,13 +64,16 @@ class _HomepageState extends State<Homepage>
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            backgroundColor: currentTheme?Color(0xFF192734).withValues(alpha: 0.85):Color(0xFFF5F8FA).withValues(alpha: 0.85),
+            backgroundColor:
+                currentTheme
+                    ? Color(0xFF192734).withValues(alpha: 0.85)
+                    : Color(0xFFF5F8FA).withValues(alpha: 0.85),
             leading: SvgPicture.string(flutter),
             title: Text(
               "Saad's Portfolio",
               style: Theme.of(context).appBarTheme.titleTextStyle,
             ),
-           floating: true,
+            floating: true,
             actions: [
               IconButton(
                 onPressed: () {
@@ -154,7 +163,31 @@ class _HomepageState extends State<Homepage>
           ),
           // Contacts
           SliverToBoxAdapter(
-            child: Column(children: [Divider(), const SizedBox(height: 15)]),
+            child: Column(
+              children: [
+                Divider(),
+                Text(
+                  textAlign: TextAlign.center,
+                  "GitHub Contributions",
+                  style: Theme.of(context).textTheme.displayLarge,
+                ),
+              ],
+            ),
+          ),
+
+          SliverToBoxAdapter(
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                
+                 
+                    return githubContributionsWidget(
+                      constraints.maxHeight - 40,
+                      constraints.maxWidth - 50,
+                      context,
+                    );
+               
+              },
+            ),
           ),
 
           SliverToBoxAdapter(
@@ -192,14 +225,15 @@ class _HomepageState extends State<Homepage>
                       ),
                     ),
 
-                    Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: contacts(),
                         ),
-                        
-                        Text("Views : ${stats['total_visitors']}")
+
+                        Text("Views : ${stats['total_visitors']}"),
                         // Text("Live Visitor: ${stats['live_visitors']},\t\tTotal Visitor: ${stats['total_visitors']}")
                       ],
                     ),
@@ -367,8 +401,51 @@ class _HomepageState extends State<Homepage>
         onTap: () async {
           await launchUrl(Uri.parse(e.value));
         },
-        child: SvgPicture.string(getLogo(e.key), width: 65,),
+        child: SvgPicture.string(getLogo(e.key), width: 65),
       );
     }).toList();
   }
+
+  Widget githubContributionsWidget(
+    double height,
+    double width,
+    BuildContext context,
+  ) {
+    print(gitHubYear);
+
+   return Container();
+  }
+
+  // Widget selectGithubYear() {
+  //   int nowYear = DateTime.now().year;
+  //   return SizedBox(
+  //     height: 300,
+  //     child: Column(
+  //       children: List.generate(nowYear - 2020, (i) {
+  //         return Material(
+  //           borderRadius: BorderRadius.circular(5),
+  //           child: InkWell(
+  //             onTap: () {
+  //               setState(() {
+  //                 gitHubYear = nowYear - i;
+  //               });
+  //             },
+  //             child: Container(
+  //               alignment: Alignment.center,
+  //               padding: EdgeInsets.all(5),
+  //               decoration: BoxDecoration(
+  //                 color:
+  //                     gitHubYear == nowYear - i
+  //                         ? Theme.of(context).primaryColor
+  //                         : null,
+  //                 borderRadius: BorderRadius.all(Radius.circular(5)),
+  //               ),
+  //               child: Text((nowYear - i).toString()),
+  //             ),
+  //           ),
+  //         );
+  //       }),
+  //     ),
+  //   );
+  // }
 }

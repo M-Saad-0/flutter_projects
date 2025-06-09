@@ -3,17 +3,20 @@
     "platforms": {
       "android": {
         "default": {
-          "projectId": "prjkt-73852",
-          "appId": "1:390976943192:android:e99a4bd93e90b38909c62d",
+          "projectId": "msaadcse-portfolio",
+          "appId": "1:117111881679:android:5fd41214cd9ab5bc87dcba",
           "fileOutput": "android/app/google-services.json"
         }
       },
       "dart": {
         "lib/firebase_options.dart": {
-          "projectId": "prjkt-73852",
+          "projectId": "msaadcse-portfolio",
           "configurations": {
-            "android": "1:390976943192:android:e99a4bd93e90b38909c62d",
-            "web": "1:390976943192:web:9cf7a7bf7739879309c62d"
+            "android": "1:117111881679:android:5fd41214cd9ab5bc87dcba",
+            "ios": "1:117111881679:ios:3c12c13a116ab91d87dcba",
+            "macos": "1:117111881679:ios:3c12c13a116ab91d87dcba",
+            "web": "1:117111881679:web:5e2b42c910334fc687dcba",
+            "windows": "1:117111881679:web:a11b781d658de85a87dcba"
           }
         }
       }
@@ -21,6 +24,7 @@
   },
   "hosting": {
     "public": "build/web",
+    "site": "msaadcse-portfolio",    
     "ignore": [
       "firebase.json",
       "**/.*",

@@ -31,6 +31,6 @@ const myProjects = [
         "A feature-rich multiplayer Tic-Tac-Toe game built with Flutter. It supports customizable UI themes and persistent local score tracking using Shared Preferences, offering a smooth and personalized game experience.",
     picture: "images/tictactoe.jpg",
     skillsUsed: ["Flutter", "Shared Prefs", "Game Logic", "UI/UX"],
-    url: "", // Add GitHub or Play Store URL if available
+    url: "https://github.com/M-Saad-0", // Add GitHub or Play Store URL if available
   ),
 ];
