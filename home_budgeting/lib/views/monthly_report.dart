@@ -15,7 +15,6 @@ class MonthlyReport extends StatefulWidget {
 class _MonthlyReportState extends State<MonthlyReport>
     with TickerProviderStateMixin {
   late TabController _monthTabController;
-  late TabController _yearTabController;
   String? selectedYear;
 
   @override
@@ -59,8 +58,7 @@ class _MonthlyReportState extends State<MonthlyReport>
                       (state.report.generalReport[selectedYear] as Map)
                           .cast<String, dynamic>();
 
-                          Map<String, int>? monthWisePriceReport = state.report.monthTotal[state.report.yearTotal.keys.toList()[_yearTabController.index]];
-
+               
                   return Column(
                     children: [
                       DropdownButton<String>(
@@ -221,40 +219,6 @@ class _MonthlyReportState extends State<MonthlyReport>
                           ],
                         ),
                       ),
-                   
-                   
-                   
-                   const SizedBox(height: 20,),
-                   Card(child: Column(
-                    children: [
-                      TabBar(controller: _yearTabController, tabs: state.report.yearTotal.keys.map((e)=>Text(e)).toList()),
-                      TabBarView(controller: _yearTabController, children: monthWisePriceReport?.entries.map((entry)=>Chart(data: (entry.value as Map<String, int>).entries.map((e){return MonthSeriesSales(entry.key, entry.value);}).toList(), variables: {'time':Variable(accessor: (MonthSeriesSales datum)=>datum.time, scale: TimeScale(formatter: (v)=>DateTime(state.report.yearTotal.keys[_yearTabController.index]))), 'sales':Variable(accessor: (MonthSeriesSales datum)=>datum.sales)}, marks: [AreaMark(
-                                                      shape: ShapeEncode(
-                                                        value: BasicAreaShape(
-                                                          smooth: true,
-                                                        ),
-                                                      ),
-                                                      color: ColorEncode(
-                                                        value: Defaults
-                                                            .colors10
-                                                            .first
-                                                            .withAlpha(80),
-                                                      ),
-                                                    ),
-
-                                                    LineMark(
-                                                      shape: ShapeEncode(
-                                                        value: BasicLineShape(
-                                                          dash: [5, 2],
-                                                        ),
-                                                      ),
-                                                      selected: {
-                                                        'touchMove': {1},
-                                                      },
-                                                    ),
-                                                    PointMark(),])).toList()??[],)
-                    ],
-                   ),)
                     ],
                   );
 

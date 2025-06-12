@@ -12,9 +12,6 @@ class Expanse extends HiveObject {
   @HiveField(3)
   final String date;
 
-
-
-
   Expanse({
     required this.payee,
     required this.description,

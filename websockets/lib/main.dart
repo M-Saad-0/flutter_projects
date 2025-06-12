@@ -37,29 +37,41 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Form(
-              child: TextFormField(
-                onChanged: _sendMyMessageOnRunTime,
-                controller: _controller,
-                decoration: InputDecoration(label: Text("Send any message")),
+            Expanded(
+              child: StreamBuilder(
+                stream: widget.channel.stream,
+                builder: (context, snapsot) {
+                  return Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Text(snapsot.hasData ? snapsot.data : ""),
+                  );
+                },
               ),
             ),
-            StreamBuilder(
-              stream: widget.channel.stream,
-              builder: (context, snapsot) {
-                return Padding(
-                  padding: EdgeInsets.all(8),
-                  child: Text(snapsot.hasData ? snapsot.data : ""),
-                );
-              },
+            Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Form(
+                      child: TextFormField(
+                        onChanged: _sendMyMessageOnRunTime,
+                        controller: _controller,
+                        decoration: InputDecoration(label: Text("Send any message")),
+                      ),
+                    ),
+                  ),
+                ),
+                 FloatingActionButton(
+        onPressed: _sendMyMessage,
+        child: Icon(Icons.send),
+      ),
+              ],
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _sendMyMessage,
-        child: Icon(Icons.send),
-      ),
+      
     );
   }
 

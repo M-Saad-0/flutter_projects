@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:msaadcse_portfolio/app_theme.dart';
 import 'package:msaadcse_portfolio/firebase_options.dart';
+import 'package:msaadcse_portfolio/providers/github_contribution_provivder.dart';
 import 'package:msaadcse_portfolio/providers/theme_provider.dart';
 import 'package:msaadcse_portfolio/providers/visitor_provider.dart';
 import 'package:msaadcse_portfolio/views/homepage.dart';
@@ -14,6 +15,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => ThemeProvider()),
+        ChangeNotifierProvider(create: (context) => GithubContributionProvivder()),
         ChangeNotifierProvider(
           create: (_) => VisitorProvider()..listenToVisitors(),
         ),

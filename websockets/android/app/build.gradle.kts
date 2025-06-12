@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.saadc.websockets"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 35
     ndkVersion = flutter.ndkVersion
 
     compileOptions {

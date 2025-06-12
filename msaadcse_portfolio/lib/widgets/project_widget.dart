@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:msaadcse_portfolio/app_theme.dart';
 import 'package:msaadcse_portfolio/constants/my_skills.dart';
 import 'package:msaadcse_portfolio/models/project.dart';
-import 'package:url_launcher_web/url_launcher_web.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 

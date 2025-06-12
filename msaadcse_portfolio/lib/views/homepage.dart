@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:hugeicons/hugeicons.dart';
 import 'package:msaadcse_portfolio/app_theme.dart';
 import 'package:msaadcse_portfolio/constants/my_contacts.dart';
 import 'package:msaadcse_portfolio/constants/my_projects.dart';
 import 'package:msaadcse_portfolio/constants/my_skills.dart';
 import 'package:msaadcse_portfolio/constants/svgs.dart';
+import 'package:msaadcse_portfolio/providers/github_contribution_provivder.dart';
 import 'package:msaadcse_portfolio/providers/theme_provider.dart';
 import 'package:msaadcse_portfolio/providers/visitor_provider.dart';
+import 'package:msaadcse_portfolio/widgets/heat_map_chart.dart';
 // import 'package:msaadcse_portfolio/services/live_visitor_manager.dart';
 import 'package:msaadcse_portfolio/widgets/project_widget.dart';
 import 'package:msaadcse_portfolio/widgets/skill_widget.dart';
@@ -26,7 +26,7 @@ class _HomepageState extends State<Homepage>
     with SingleTickerProviderStateMixin {
   late AnimationController _textAnimationController;
   final ScrollController _scrollController = ScrollController();
-
+  late bool currentTheme;
   @override
   void initState() {
     _scrollController.addListener(() {});
@@ -51,34 +51,30 @@ class _HomepageState extends State<Homepage>
 
   @override
   Widget build(BuildContext context) {
-    final bool currentTheme = Provider.of<ThemeProvider>(context).isDark;
+    currentTheme = Provider.of<ThemeProvider>(context).isDark;
     final stats = context.watch<VisitorProvider>().stats;
-
+    List<Map<String, dynamic>> yearData =
+        Provider.of<GithubContributionProvivder>(context).yearDate;
+    final startYear = 2020;
+    final totalYears = DateTime.now().year - 2020;
+    final selectedYear =
+        Provider.of<GithubContributionProvivder>(context).selectedYear;
     return Scaffold(
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            backgroundColor: currentTheme?Color(0xFF192734).withValues(alpha: 0.85):Color(0xFFF5F8FA).withValues(alpha: 0.85),
+            backgroundColor:
+                currentTheme
+                    ? Color(0xFF192734).withValues(alpha: 0.85)
+                    : Color(0xFFF5F8FA).withValues(alpha: 0.85),
             leading: SvgPicture.string(flutter),
             title: Text(
               "Saad's Portfolio",
               style: Theme.of(context).appBarTheme.titleTextStyle,
             ),
-           floating: true,
-            actions: [
-              IconButton(
-                onPressed: () {
-                  Provider.of<ThemeProvider>(
-                    context,
-                    listen: false,
-                  ).toggleTheme();
-                },
-                icon: Icon(
-                  currentTheme ? Icons.light_mode : Icons.dark_mode,
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
-              ),
-            ],
+            floating: true,
+            actionsPadding: EdgeInsets.symmetric(horizontal: 16),
+            actions: [...contacts(MediaQuery.sizeOf(context).width)],
           ),
           SliverToBoxAdapter(
             child: Card(
@@ -154,31 +150,103 @@ class _HomepageState extends State<Homepage>
           ),
           // Contacts
           SliverToBoxAdapter(
+            child: Column(
+              children: [
+                Divider(),
+                Text(
+                  textAlign: TextAlign.center,
+                  "GitHub Contributions",
+                  style: Theme.of(context).textTheme.displayLarge,
+                ),
+              ],
+            ),
+          ),
+
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: SizedBox(
+                // height: 350 ,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    SizedBox(
+                      height: 30,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: totalYears + 1,
+                        reverse: true,
+                        
+                        itemBuilder: (context, index) {
+                          return Container(
+                            alignment: Alignment.center,
+
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 15,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color:
+                                  selectedYear == index + startYear
+                                      ? Theme.of(context).primaryColor
+                                      : Theme.of(context).cardColor,
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: InkWell(
+                              onTap: () {
+                                context
+                                    .read<GithubContributionProvivder>()
+                                    .loadYearData(year: startYear + index);
+                              },
+                              child: Column(
+                                children: [
+                                  Text((startYear + index).toString()),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Flexible(
+                      // Or Flexible if you want dynamic sizing
+                      child: HeatMapChart(year: yearData),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+
+          SliverToBoxAdapter(
             child: Column(children: [Divider(), const SizedBox(height: 15)]),
           ),
 
           SliverToBoxAdapter(
             child: Center(
               child: Container(
-                color:
-                    Theme.of(context).brightness == Brightness.dark
-                        ? AppThemes.twitterLightBG.withValues(alpha: 0.1)
-                        : AppThemes.twitterDarkBG.withValues(alpha: 0.1),
-                height: 80,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                color: currentTheme ? Color(0xFF192734) : Colors.white,
+                height: 45,
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
                   children: [
                     RichText(
                       text: TextSpan(
                         text: "Made with 💙 by ",
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSurface,
+                          fontSize: 13
+                        ),
                         children: [
                           TextSpan(
                             text: "Muhammad Saad",
-                            style: TextStyle(fontWeight: FontWeight.w800),
+                            style: TextStyle(fontWeight: FontWeight.w800, fontSize: 15),
                           ),
                           TextSpan(
-                            text: " with ",
+                            text: " using ",
                             style: TextStyle(fontWeight: FontWeight.normal),
                           ),
                           TextSpan(
@@ -186,22 +254,27 @@ class _HomepageState extends State<Homepage>
                             style: TextStyle(
                               fontWeight: FontWeight.w900,
                               decoration: TextDecoration.underline,
+                              fontSize: 15
                             ),
                           ),
                         ],
                       ),
                     ),
 
-                    Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: contacts(),
+                    RichText(
+                      text: TextSpan(
+                        text: "Views : ",
+                        children: [
+                          TextSpan(
+                            text: "${stats['total_visitors']}",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Theme.of(context).colorScheme.onSurface,
                         ),
-                        
-                        Text("Views : ${stats['total_visitors']}")
-                        // Text("Live Visitor: ${stats['live_visitors']},\t\tTotal Visitor: ${stats['total_visitors']}")
-                      ],
+                      ),
                     ),
                   ],
                 ),
@@ -238,10 +311,7 @@ class _HomepageState extends State<Homepage>
             children: [
               TweenAnimationBuilder<int>(
                 duration: Duration(milliseconds: 1000),
-                tween: IntTween(
-                  begin: 0,
-                  end: "Flutter Developer".length,
-                ),
+                tween: IntTween(begin: 0, end: "Flutter Developer".length),
                 curve: Curves.bounceIn,
                 builder: (context, val, child) {
                   return Text(
@@ -257,7 +327,7 @@ class _HomepageState extends State<Homepage>
               TweenAnimationBuilder<int>(
                 duration: Duration(milliseconds: 1000),
                 tween: IntTween(begin: 0, end: "Muhammad Saad".length),
-                curve: Curves.bounceIn,
+                curve: Curves.easeIn,
                 builder: (context, val, child) {
                   return Text(
                     "Muhammad Saad".substring(0, val),
@@ -276,7 +346,7 @@ class _HomepageState extends State<Homepage>
         TweenAnimationBuilder<double>(
           duration: Duration(milliseconds: 1000),
           tween: Tween<double>(begin: 0.0, end: 1.0),
-          curve: Curves.bounceIn,
+          curve: Curves.easeIn,
           builder: (context, value, child) {
             return Transform.scale(
               scale: value,
@@ -331,7 +401,10 @@ class _HomepageState extends State<Homepage>
                 bottomLeft: Radius.circular(100),
                 bottomRight: Radius.circular(100),
               ),
-              child: Image(image: AssetImage("images/user.png"), height: 300),
+              child: Image(
+                image: AssetImage("assets/images/user.png"),
+                height: 300,
+              ),
             ),
           ),
         ],
@@ -361,14 +434,94 @@ class _HomepageState extends State<Homepage>
     return myProjects.map((e) => ProjectWidget(project: e)).toList();
   }
 
-  List<Widget> contacts() {
-    return myContacts.entries.map((e) {
-      return InkWell(
-        onTap: () async {
-          await launchUrl(Uri.parse(e.value));
-        },
-        child: SvgPicture.string(getLogo(e.key), width: 65,),
-      );
-    }).toList();
+  dynamic contacts(double width) {
+    if (width < 550) {
+      List<PopupMenuItem> widgetList =
+          myContacts.entries.map<PopupMenuItem>((e) {
+              return PopupMenuItem(
+                onTap: () async {
+                  await launchUrl(Uri.parse(e.value));
+                },
+                child: Row(
+                  children: [
+                    SvgPicture.string(
+                      getLogo(e.key),
+                      width: 28,
+                      colorFilter: ColorFilter.mode(
+                        currentTheme ? Colors.white70 : Colors.black87,
+                        BlendMode.srcIn,
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Text(e.key),
+                  ],
+                ),
+              );
+            }).toList()
+            ..add(
+              PopupMenuItem(
+                onTap: () {
+                  Provider.of<ThemeProvider>(
+                    context,
+                    listen: false,
+                  ).toggleTheme();
+                },
+                child: Row(
+                  children: [
+                    Icon(
+                      currentTheme ? Icons.light_mode : Icons.dark_mode,
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
+                    const SizedBox(width: 10),
+                    Text("Change Theme"),
+                  ],
+                ),
+              ),
+            );
+
+      return [
+        PopupMenuButton(
+          itemBuilder: (context) => widgetList,
+          tooltip: "Contacts & Theme",
+          child: Icon(Icons.menu),
+        ),
+      ];
+    }
+
+    List<Widget> widgetList =
+        myContacts.entries.map<Widget>((e) {
+            return InkWell(
+              onTap: () async {
+                await launchUrl(Uri.parse(e.value));
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SvgPicture.string(
+                  getLogo(e.key),
+                  width: 28,
+                  colorFilter: ColorFilter.mode(
+                    currentTheme ? Colors.white70 : Colors.black87,
+                    BlendMode.srcIn,
+                  ),
+                ),
+              ),
+            );
+          }).toList()
+          ..add(VerticalDivider())
+          ..add(
+            IconButton(
+              onPressed: () {
+                Provider.of<ThemeProvider>(
+                  context,
+                  listen: false,
+                ).toggleTheme();
+              },
+              icon: Icon(
+                currentTheme ? Icons.light_mode : Icons.dark_mode,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
+            ),
+          );
+    return widgetList;
   }
 }
