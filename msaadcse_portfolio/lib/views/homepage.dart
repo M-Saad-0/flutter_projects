@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:msaadcse_portfolio/app_theme.dart';
@@ -176,7 +177,7 @@ class _HomepageState extends State<Homepage>
                         scrollDirection: Axis.horizontal,
                         itemCount: totalYears + 1,
                         reverse: true,
-                        
+
                         itemBuilder: (context, index) {
                           return Container(
                             alignment: Alignment.center,
@@ -226,53 +227,90 @@ class _HomepageState extends State<Homepage>
           SliverToBoxAdapter(
             child: Center(
               child: Container(
+                width: MediaQuery.sizeOf(context).width,
                 color: currentTheme ? Color(0xFF192734) : Colors.white,
-                height: 45,
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
+                
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     RichText(
                       text: TextSpan(
                         text: "Made with 💙 by ",
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.onSurface,
-                          fontSize: 13
+                          fontSize: 13,
                         ),
                         children: [
                           TextSpan(
+                            recognizer:
+                                TapGestureRecognizer()
+                                  ..onTap = () async {
+                                    await launchUrl(
+                                      Uri.parse(
+                                        "https://www.linkedin.com/in/muhammad-saad-a583b9230/",
+                                      ),
+                                    );
+                                  },
                             text: "Muhammad Saad",
-                            style: TextStyle(fontWeight: FontWeight.w800, fontSize: 15),
+                            style: TextStyle(
+                              fontWeight: FontWeight.w800,
+                              fontSize: 15,
+                            ),
                           ),
                           TextSpan(
                             text: " using ",
                             style: TextStyle(fontWeight: FontWeight.normal),
                           ),
                           TextSpan(
+                            recognizer:
+                                TapGestureRecognizer()
+                                  ..onTap = () async {
+                                    await launchUrl(
+                                      Uri.parse("https://www.flutter.dev"),
+                                    );
+                                  },
                             text: "Flutter",
                             style: TextStyle(
                               fontWeight: FontWeight.w900,
                               decoration: TextDecoration.underline,
-                              fontSize: 15
+                              fontSize: 15,
                             ),
                           ),
                         ],
                       ),
                     ),
 
-                    RichText(
-                      text: TextSpan(
-                        text: "Views : ",
-                        children: [
-                          TextSpan(
-                            text: "${stats['total_visitors']}",
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: RichText(
+                        textAlign: TextAlign.end,
+                        text: TextSpan(
+                          text: "Views : ",
+                          children: [
+                            TextSpan(
+                              text: "${stats['total_visitors']}",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            TextSpan(
+                              text: " \t | \t  ",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            TextSpan(
+                              text: "Live Viewers : ",
+                              style: TextStyle(fontWeight: FontWeight.normal),
+                            ),
+                            TextSpan(
+                              text: "${stats['live_visitors']}",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Theme.of(context).colorScheme.onSurface,
                           ),
-                        ],
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Theme.of(context).colorScheme.onSurface,
                         ),
                       ),
                     ),

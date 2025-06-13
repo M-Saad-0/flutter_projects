@@ -32,7 +32,7 @@ class HeatMapChart extends StatelessWidget {
                             alpha: ((e['level'] + 1) / 6) as double,
                           ),
 
-                          borderRadius: BorderRadius.circular(3),
+                          borderRadius: BorderRadius.circular(size/8),
                         ),
                       ),
                     ),
@@ -52,7 +52,7 @@ class HeatMapChart extends StatelessWidget {
                         alpha: ((e['level'] + 1) / 6) as double,
                       ),
 
-                      borderRadius: BorderRadius.circular(3),
+                      borderRadius: BorderRadius.circular(size/8),
                     ),
                   ),
                 );
